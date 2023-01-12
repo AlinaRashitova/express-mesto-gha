@@ -36,5 +36,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/', usersRouter);
 app.use('/', cardsRouter);
+app.use((req, res) => {
+  res.status(NOT_FOUND_ERROR_CODE).send({ message: 'Ошибка 404: несуществующая станица' });
+});
 
 app.listen(PORT);
