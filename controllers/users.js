@@ -1,5 +1,5 @@
 const User = require('../models/user');
-const { INCORRECT_ERROR_CODE, NOT_FOUND_ERROR_CODE, DEFAULT_ERROR_CODE } = require('../app');
+const { INCORRECT_ERROR_CODE, NOT_FOUND_ERROR_CODE, DEFAULT_ERROR_CODE } = require('../constants/errors');
 
 module.exports.getUsers = (req, res) => {
   User.find({})
@@ -16,11 +16,6 @@ module.exports.getUserById = (req, res) => {
       return res.status(200).send(user);
     })
     .catch((err) => {
-      if (err.name === 'ValidationError') {
-        return res
-          .status(INCORRECT_ERROR_CODE)
-          .send({ message: 'Переданы некорректные данные пользователя' });
-      }
       if (err.name === 'CastError') {
         return res
           .status(INCORRECT_ERROR_CODE)
@@ -59,7 +54,7 @@ module.exports.updateUser = (req, res) => {
           .send({ message: 'Переданы некорректные данные при обновлении профиля' });
       }
       if (err.name === 'CastError') {
-        return res.status(NOT_FOUND_ERROR_CODE).send({ message: 'Пользователь по указанному _id не найден' });
+        return res.status(NOT_FOUND_ERROR_CODE).send({ message: 'Пользователь с указанным _id не найден' });
       }
       return res.status(DEFAULT_ERROR_CODE).send({ message: 'Ошибка по умолчанию' });
     });
@@ -76,7 +71,7 @@ module.exports.updateAvatar = (req, res) => {
           .send({ message: 'Переданы некорректные данные при обновлении аватара' });
       }
       if (err.name === 'CastError') {
-        return res.status(NOT_FOUND_ERROR_CODE).send({ message: 'Пользователь по указанному _id не найден' });
+        return res.status(NOT_FOUND_ERROR_CODE).send({ message: 'Пользователь с указанным _id не найден' });
       }
       return res.status(DEFAULT_ERROR_CODE).send({ message: 'Ошибка по умолчанию' });
     });

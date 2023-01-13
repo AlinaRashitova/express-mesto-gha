@@ -1,5 +1,5 @@
 const Card = require('../models/card');
-const { INCORRECT_ERROR_CODE, NOT_FOUND_ERROR_CODE, DEFAULT_ERROR_CODE } = require('../app');
+const { INCORRECT_ERROR_CODE, NOT_FOUND_ERROR_CODE, DEFAULT_ERROR_CODE } = require('../constants/errors');
 
 module.exports.getCards = (req, res) => {
   Card.find({})
@@ -31,11 +31,6 @@ module.exports.deleteCard = (req, res) => {
       return res.status(200).send({ data: card });
     })
     .catch((err) => {
-      if (err.name === 'ValidationError') {
-        return res
-          .status(INCORRECT_ERROR_CODE)
-          .send({ message: 'Переданы некорректные данные карточки' });
-      }
       if (err.name === 'CastError') {
         return res
           .status(INCORRECT_ERROR_CODE)
@@ -54,11 +49,6 @@ module.exports.likeCard = (req, res) => {
       return res.status(200).send({ data: card });
     })
     .catch((err) => {
-      if (err.name === 'ValidationError') {
-        return res
-          .status(INCORRECT_ERROR_CODE)
-          .send({ message: 'Переданы некорректные данные для постановки лайка' });
-      }
       if (err.name === 'CastError') {
         return res
           .status(INCORRECT_ERROR_CODE)
@@ -77,11 +67,6 @@ module.exports.dislikeCard = (req, res) => {
       return res.status(200).send({ data: card });
     })
     .catch((err) => {
-      if (err.name === 'ValidationError') {
-        return res
-          .status(INCORRECT_ERROR_CODE)
-          .send({ message: 'Переданы некорректные данные для снятия лайка' });
-      }
       if (err.name === 'CastError') {
         return res
           .status(INCORRECT_ERROR_CODE)
