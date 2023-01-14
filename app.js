@@ -3,7 +3,7 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const { NOT_FOUND_ERROR_CODE } = require('./constants/errors');
+const { NOT_FOUND_ERROR_CODE } = require('./utils/constatnts');
 const usersRouter = require('./routes/users');
 const cardsRouter = require('./routes/cards');
 
