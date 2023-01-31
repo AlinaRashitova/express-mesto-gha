@@ -17,12 +17,6 @@ const getUsers = async (req, res, next) => {
   }
 };
 
-/* const getUsers = (req, res, next) => {
-  User.find({})
-    .then((users) => res.status(200).send(users))
-    .catch(next);
-}; */
-
 const getUserById = async (req, res, next) => {
   try {
     const user = await User.findById(req.params.userId);
@@ -39,19 +33,6 @@ const getUserById = async (req, res, next) => {
   }
 };
 
-/* const getUserById = (req, res, next) => {
-  User.findById(req.params.userId)
-    .orFail(new NotFoundError('Пользователь по указанному _id не найден'))
-    .then((user) => res.status(200).send(user))
-    .catch((err) => {
-      if (err.name === 'CastError' || err.name === 'ValidationError') {
-        next(new ValidationError('Переданы некорректные данные пользователя'));
-      } else {
-        next(err);
-      }
-    });
-}; */
-
 const getUserInfo = async (req, res, next) => {
   try {
     const user = await User.findById(req.user._id);
@@ -67,19 +48,6 @@ const getUserInfo = async (req, res, next) => {
     }
   }
 };
-
-/* const getUserInfo = (req, res, next) => {
-  User.findById(req.user._id)
-    .orFail(new NotFoundError('Пользователь по указанному _id не найден'))
-    .then((user) => res.status(200).send(user))
-    .catch((err) => {
-      if (err.name === 'CastError') {
-        next(new ValidationError('Переданы некорректные данные пользователя'));
-      } else {
-        next(err);
-      }
-    });
-}; */
 
 const createUser = async (req, res, next) => {
   try {
@@ -118,41 +86,6 @@ const createUser = async (req, res, next) => {
   }
 };
 
-/* const createUser = (req, res, next) => {
-  const {
-    name,
-    about,
-    avatar,
-    email,
-    password,
-  } = req.body;
-  bcrypt.hash(password, 10)
-    .then((hash) => User.create({
-      name,
-      about,
-      avatar,
-      email,
-      password: hash,
-    })).then((user) => res
-      .status(200)
-      .send({
-        name: user.name,
-        about: user.about,
-        avatar: user.avatar,
-        email: user.email,
-        _id: user._id,
-      }))
-    .catch((err) => {
-      if (err.name === 'ValidationError') {
-        next(new ValidationError('Переданы некорректные данные при создании пользователя'));
-      } else if (err.code === 11000) {
-        next(new RegistrationError('Такой пользователь уже существует'));
-      } else {
-        next(err);
-      }
-    });
-}; */
-
 const updateUser = async (req, res, next) => {
   try {
     const { name, about } = req.body;
@@ -173,23 +106,6 @@ const updateUser = async (req, res, next) => {
     }
   }
 };
-
-/* const updateUser = (req, res, next) => {
-  const { name, about } = req.body;
-  User.findByIdAndUpdate(
-    req.user._id,
-    { name, about },
-    { new: true, runValidators: true },
-  )
-    .then((user) => res.status(200).send(user))
-    .catch((err) => {
-      if (err.name === 'ValidationError' || err.name === 'CastError') {
-        next(new ValidationError('Переданы некорректные данные при обновлении профиля'));
-      } else {
-        next(err);
-      }
-    });
-}; */
 
 const updateAvatar = async (req, res, next) => {
   try {
@@ -212,23 +128,6 @@ const updateAvatar = async (req, res, next) => {
   }
 };
 
-/* const updateAvatar = (req, res, next) => {
-  const { avatar } = req.body;
-  User.findByIdAndUpdate(
-    req.user._id,
-    { avatar },
-    { new: true, runValidators: true },
-  )
-    .then((user) => res.status(200).send(user))
-    .catch((err) => {
-      if (err.name === 'ValidationError' || err.name === 'CastError') {
-        next(new ValidationError('Переданы некорректные данные при обновлении аватара'));
-      } else {
-        next(err);
-      }
-    });
-}; */
-
 const login = async (req, res, next) => {
   const { email, password } = req.body;
   try {
@@ -250,23 +149,6 @@ const login = async (req, res, next) => {
     next(err);
   }
 };
-
-/* const login = (req, res, next) => {
-  const { email } = req.body;
-  return User.findOne({ email }).select('+password')
-    .then((user) => {
-      if (!user) {
-        throw new AuthError('Неправильная почта или пароль');
-      }
-      const token = jwt.sign({ _id: user._id }, JWT_SECRET, { expiresIn: '7d' });
-      res.send({
-        token,
-        name: user.name,
-        email: user.email,
-      });
-    })
-    .catch(next);
-}; */
 
 module.exports = {
   getUsers,
